@@ -1,0 +1,33 @@
+version: '2.4'
+
+services:
+  postgres:
+    image: postgres:latest
+    mem_limit: ${MEMORY}
+    cpus: ${CPUS}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
+    ports:
+      - "5432:5432"
+
+  four_bench:
+    build:
+      context: ./four_bench
+    mem_limit: ${MEMORY}
+    cpus: ${CPUS}
+    volumes:
+      - ./four_bench:/app
+      - ./data:/data
+
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTRGRES_DB_HOST=postgres
+      - POSTRGRES_DB_PORT=5432
+
+    depends_on:
+      - postgres

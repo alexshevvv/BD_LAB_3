@@ -1,0 +1,45 @@
+{
+    "data_file": "nyc_yellow_big.csv",
+    "result_file": "results.csv",
+    "number_of_trials": 10,
+    "db_types": [
+        "sqlite",
+        "duckdb",
+        "psycopg2",
+        "sqlalchemy",
+        "pandas"
+    ],
+    "sql_queries": {
+        "pandas": [
+            "SELECT VendorID, count(*) FROM trips GROUP BY VendorID;",
+            "SELECT passenger_count, avg(total_amount) FROM trips GROUP BY 1;",
+            "SELECT passenger_count, strftime('%Y', tpep_pickup_datetime) AS pickup_year, count(*) FROM trips GROUP BY 1, 2;",
+            "SELECT passenger_count, strftime('%Y', tpep_pickup_datetime) AS year, round(trip_distance), count(*) FROM trips GROUP BY 1, 2, 3 ORDER BY 2, 4 DESC;"
+        ],
+        "duckdb": [
+            "SELECT VendorID, count(*) FROM trips GROUP BY VendorID;",
+            "SELECT passenger_count, avg(total_amount) FROM trips GROUP BY 1;",
+            "SELECT passenger_count, extract(year from tpep_pickup_datetime), count(*) FROM trips GROUP BY 1, 2;",
+            "SELECT passenger_count, extract(year from tpep_pickup_datetime), round(trip_distance), count(*) FROM trips GROUP BY 1, 2, 3 ORDER BY 2, 4 desc;"
+        ],
+        "sqlite": [
+            "SELECT VendorID, count(*) FROM trips GROUP BY VendorID;",
+            "SELECT passenger_count, avg(total_amount) FROM trips GROUP BY 1;",
+            "SELECT passenger_count, strftime('%Y', tpep_pickup_datetime) AS pickup_year, count(*) FROM trips GROUP BY 1, 2;",
+            "SELECT passenger_count, strftime('%Y', tpep_pickup_datetime) AS year, round(trip_distance), count(*) FROM trips GROUP BY 1, 2, 3 ORDER BY 2, 4 DESC;"
+        ],
+        "psycopg2": [
+            "SELECT VendorID, count(*) FROM trips GROUP BY VendorID;",
+            "SELECT passenger_count, avg(total_amount) FROM trips GROUP BY 1;",
+            "SELECT passenger_count, extract(year from tpep_pickup_datetime), count(*) FROM trips GROUP BY 1, 2;",
+            "SELECT passenger_count, extract(year from tpep_pickup_datetime), round(trip_distance), count(*) FROM trips GROUP BY 1, 2, 3 ORDER BY 2, 4 desc;"
+        ],
+        "sqlalchemy": [
+            "SELECT VendorID, count(*) FROM trips GROUP BY VendorID;",
+            "SELECT passenger_count, avg(total_amount) FROM trips GROUP BY 1;",
+            "SELECT passenger_count, strftime('%Y', tpep_pickup_datetime) AS pickup_year, count(*) FROM trips GROUP BY 1, 2;",
+            "SELECT passenger_count, strftime('%Y', tpep_pickup_datetime) AS year, round(trip_distance), count(*) FROM trips GROUP BY 1, 2, 3 ORDER BY 2, 4 DESC;"
+        ]
+    },
+    "create_new_db": true
+}
